@@ -1,0 +1,245 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --font-sans: var(--font-cinzel), ui-serif, Georgia, Cambria, "Times New Roman",
+    Times, serif;
+  --font-serif: var(--font-cormorant), ui-serif, Georgia, Cambria,
+    "Times New Roman", Times, serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, SFMono-Regular, Menlo,
+    Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+
+  /* SACE Scarlet Protocol Theme Colors */
+  --color-background: hsl(0 0% 5%);
+  --color-foreground: hsl(0 0% 95%);
+  --color-card: hsl(0 80% 8%);
+  --color-card-foreground: hsl(0 0% 95%);
+  --color-popover: hsl(0 80% 8%);
+  --color-popover-foreground: hsl(0 0% 95%);
+  --color-primary: hsl(0 85% 45%);
+  --color-primary-foreground: hsl(0 0% 100%);
+  --color-secondary: hsl(0 70% 12%);
+  --color-secondary-foreground: hsl(0 0% 95%);
+  --color-muted: hsl(0 30% 15%);
+  --color-muted-foreground: hsl(0 0% 70%);
+  --color-accent: hsl(0 85% 50%);
+  --color-accent-foreground: hsl(0 0% 100%);
+  --color-destructive: hsl(0 85% 60%);
+  --color-destructive-foreground: hsl(0 0% 100%);
+  --color-border: hsl(0 30% 25%);
+  --color-input: hsl(0 30% 15%);
+  --color-ring: hsl(0 85% 50%);
+
+  /* Extended Palette */
+  --color-maroon: hsl(0 88% 15%);
+  --color-maroon-deep: hsl(0 88% 10%);
+  --color-crimson: hsl(0 85% 45%);
+  --color-crimson-glow: hsl(0 85% 50%);
+  --color-charcoal: hsl(0 0% 8%);
+  --color-ebony: hsl(0 0% 5%);
+  --color-silver: hsl(0 0% 75%);
+  --color-ghost: hsl(0 0% 95%);
+
+  --color-sidebar: hsl(0 70% 8%);
+  --color-sidebar-foreground: hsl(0 0% 90%);
+  --color-sidebar-primary: hsl(0 85% 50%);
+  --color-sidebar-primary-foreground: hsl(0 0% 100%);
+  --color-sidebar-accent: hsl(0 70% 18%);
+  --color-sidebar-accent-foreground: hsl(0 0% 95%);
+  --color-sidebar-border: hsl(0 40% 20%);
+  --color-sidebar-ring: hsl(0 85% 50%);
+
+  --color-chart-1: hsl(0 85% 50%);
+  --color-chart-2: hsl(0 70% 30%);
+  --color-chart-3: hsl(0 50% 20%);
+  --color-chart-4: hsl(0 30% 15%);
+  --color-chart-5: hsl(0 0% 40%);
+
+  --radius: 0.75rem;
+}
+
+/* Baroque-style patterns */
+@layer base {
+  * {
+    @apply border-border;
+  }
+  
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+
+  /* Custom scrollbar with maroon accent */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: hsl(0 0% 8%);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: hsl(0 70% 20%);
+    border-radius: 4px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: hsl(0 85% 30%);
+  }
+}
+
+@layer utilities {
+  /* Glassmorphism effect for Velvet Sidebar */
+  .glass-velvet {
+    background: linear-gradient(
+      135deg,
+      hsla(0, 70%, 12%, 0.85) 0%,
+      hsla(0, 80%, 8%, 0.95) 100%
+    );
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+  }
+
+  /* Crimson glow effect */
+  .glow-crimson {
+    box-shadow: 0 0 20px hsla(0, 85%, 50%, 0.3),
+      0 0 40px hsla(0, 85%, 50%, 0.15);
+  }
+
+  .glow-crimson-sm {
+    box-shadow: 0 0 10px hsla(0, 85%, 50%, 0.25),
+      0 0 20px hsla(0, 85%, 50%, 0.1);
+  }
+
+  /* Spotlight radial gradient */
+  .spotlight {
+    background: radial-gradient(
+      ellipse at center,
+      hsla(0, 70%, 15%, 0.4) 0%,
+      hsla(0, 0%, 5%, 1) 70%
+    );
+  }
+
+  /* Baroque ornate border */
+  .border-ornate {
+    border: 2px solid;
+    border-image: linear-gradient(
+        135deg,
+        hsl(0 30% 40%) 0%,
+        hsl(0 50% 25%) 50%,
+        hsl(0 30% 40%) 100%
+      )
+      1;
+  }
+
+  /* Silver border */
+  .border-silver {
+    border-color: hsla(0, 0%, 75%, 0.3);
+  }
+
+  /* Animated scanning line */
+  @keyframes scan-line {
+    0% {
+      top: 0%;
+    }
+    50% {
+      top: 100%;
+    }
+    100% {
+      top: 0%;
+    }
+  }
+
+  .animate-scan-line {
+    animation: scan-line 2s ease-in-out infinite;
+  }
+
+  /* Pulse glow animation */
+  @keyframes pulse-glow {
+    0%,
+    100% {
+      box-shadow: 0 0 20px hsla(0, 85%, 50%, 0.4);
+    }
+    50% {
+      box-shadow: 0 0 40px hsla(0, 85%, 50%, 0.7);
+    }
+  }
+
+  .animate-pulse-glow {
+    animation: pulse-glow 2s ease-in-out infinite;
+  }
+
+  /* Curtain wipe animation */
+  @keyframes curtain-left {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-100%);
+    }
+  }
+
+  @keyframes curtain-right {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(100%);
+    }
+  }
+
+  /* Success flash animation */
+  @keyframes success-flash {
+    0% {
+      opacity: 0;
+    }
+    10% {
+      opacity: 0.5;
+    }
+    100% {
+      opacity: 0;
+    }
+  }
+
+  .animate-success-flash {
+    animation: success-flash 0.5s ease-out;
+  }
+
+  /* Stagger fade-up entrance */
+  @keyframes fade-slide-up {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-fade-up {
+    animation: fade-slide-up 0.5s ease-out forwards;
+  }
+
+  /* Maroon gradient backgrounds */
+  .bg-maroon-gradient {
+    background: linear-gradient(
+      180deg,
+      hsl(0 80% 12%) 0%,
+      hsl(0 70% 8%) 100%
+    );
+  }
+
+  .bg-row-gradient {
+    background: linear-gradient(90deg, hsl(0 70% 10%) 0%, hsl(0 0% 5%) 100%);
+  }
+
+  /* Present badge glow */
+  .badge-present {
+    background: linear-gradient(135deg, hsl(0 85% 45%) 0%, hsl(0 70% 35%) 100%);
+    box-shadow: 0 0 8px hsla(0, 85%, 50%, 0.4);
+  }
+}
