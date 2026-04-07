@@ -2,98 +2,67 @@
 
 import { useState, useEffect } from "react"
 import { DashboardLayout } from "@/components/dashboard-layout"
-import { BentoStats } from "@/components/bento-stats"
-import { ScannerInterface } from "@/components/scanner-interface"
+import { OrganizerDashboard } from "@/components/organizer-dashboard"
+import { CheckinScreen } from "@/components/checkin-screen"
+import { ActivityFeed } from "@/components/activity-feed"
+import { ToastProvider } from "@/components/toast-provider"
 import { motion } from "framer-motion"
-import Image from "next/image"
+import { LayoutGrid } from "lucide-react"
 
-export default function ScannerPage() {
-  const [stats, setStats] = useState({
-    totalMembers: 0,
-    liveAttendance: 0,
-    activeEvent: "Daily Assembly",
-  })
-
-  // Fetch stats on mount
-  useEffect(() => {
-    const fetchStats = async () => {
-      try {
-        const response = await fetch("/api/stats")
-        const data = await response.json()
-        setStats({
-          totalMembers: data.totalStudents || 0,
-          liveAttendance: data.todayAttendance || 0,
-          activeEvent: "Daily Assembly",
-        })
-      } catch {
-        // Use fallback values
-      }
-    }
-
-    fetchStats()
-    // Refresh stats every 30 seconds
-    const interval = setInterval(fetchStats, 30000)
-    return () => clearInterval(interval)
-  }, [])
-
-  const handleScan = () => {
-    // Refresh stats after a scan
-    fetch("/api/stats")
-      .then((res) => res.json())
-      .then((data) => {
-        setStats((prev) => ({
-          ...prev,
-          totalMembers: data.totalStudents || prev.totalMembers,
-          liveAttendance: data.todayAttendance || prev.liveAttendance,
-        }))
-      })
-      .catch(() => {})
-  }
+export default function HomePage() {
+  const [view, setView] = useState<"dashboard" | "checkin" | "activity">(
+    "dashboard"
+  )
 
   return (
-    <DashboardLayout>
-      <div className="mx-auto max-w-5xl space-y-8">
-        {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="flex flex-col items-center gap-4 text-center"
-        >
-          <div className="relative flex h-20 w-20 items-center justify-center rounded-full border-2 border-crimson/50 bg-maroon-deep glow-crimson">
-            <Image
-              src="/secap.png"
-              alt="SACE Logo"
-              width={60}
-              height={60}
-              className="rounded-full"
-            />
-          </div>
-          <div>
-            <h1 className="font-serif text-3xl font-bold tracking-wide text-ghost md:text-4xl">
-              Attendance Scanner
-            </h1>
-            <p className="mt-2 text-silver/70">
-              Scan member barcodes for the Scarlet Protocol
-            </p>
-          </div>
-        </motion.div>
+    <ToastProvider>
+      <DashboardLayout>
+        <div className="space-y-6">
+          {/* View Switcher */}
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="flex flex-wrap gap-3"
+          >
+            <button
+              onClick={() => setView("dashboard")}
+              className={`flex items-center gap-2 rounded-full px-6 py-2 font-medium text-sm transition-all ${
+                view === "dashboard"
+                  ? "bg-crimson text-white shadow-lg shadow-crimson/30"
+                  : "border border-silver/20 text-silver/70 hover:border-silver/40 hover:text-ghost"
+              }`}
+            >
+              <LayoutGrid className="h-4 w-4" />
+              Dashboard
+            </button>
+            <button
+              onClick={() => setView("checkin")}
+              className={`flex items-center gap-2 rounded-full px-6 py-2 font-medium text-sm transition-all ${
+                view === "checkin"
+                  ? "bg-emerald-600 text-white shadow-lg shadow-emerald-600/30"
+                  : "border border-silver/20 text-silver/70 hover:border-silver/40 hover:text-ghost"
+              }`}
+            >
+              Quick Check-In
+            </button>
+            <button
+              onClick={() => setView("activity")}
+              className={`flex items-center gap-2 rounded-full px-6 py-2 font-medium text-sm transition-all ${
+                view === "activity"
+                  ? "bg-blue-600 text-white shadow-lg shadow-blue-600/30"
+                  : "border border-silver/20 text-silver/70 hover:border-silver/40 hover:text-ghost"
+              }`}
+            >
+              Live Activity
+            </button>
+          </motion.div>
 
-        {/* Stats Bento Grid */}
-        <BentoStats
-          totalMembers={stats.totalMembers}
-          liveAttendance={stats.liveAttendance}
-          activeEvent={stats.activeEvent}
-        />
-
-        {/* Scanner Interface */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3 }}
-        >
-          <ScannerInterface onScan={handleScan} />
-        </motion.div>
-      </div>
-    </DashboardLayout>
+          {/* Content */}
+          {view === "dashboard" && <OrganizerDashboard />}
+          {view === "checkin" && <CheckinScreen />}
+          {view === "activity" && <ActivityFeed />}
+        </div>
+      </DashboardLayout>
+    </ToastProvider>
   )
 }

@@ -11,25 +11,37 @@ import {
   ChevronLeft,
   ChevronRight,
   Scan,
+  Activity,
+  Ticket,
 } from "lucide-react"
 import { cn } from "@/lib/utils"
 import Image from "next/image"
 
 const navItems = [
   {
-    href: "/",
-    label: "Scanner",
+    href: "/dashboard",
+    label: "Dashboard",
     icon: Home,
   },
   {
-    href: "/members",
-    label: "Members",
+    href: "/checkin",
+    label: "Check-In",
+    icon: Scan,
+  },
+  {
+    href: "/attendees",
+    label: "Attendees",
     icon: Users,
   },
   {
-    href: "/attendance",
-    label: "Attendance",
-    icon: CalendarCheck,
+    href: "/activity",
+    label: "Activity",
+    icon: Activity,
+  },
+  {
+    href: "/pass",
+    label: "My Pass",
+    icon: Ticket,
   },
 ]
 
