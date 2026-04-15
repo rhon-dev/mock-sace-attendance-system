@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next"
 import { Cinzel, Cormorant_Garamond, Geist_Mono } from "next/font/google"
+import { ToastProvider } from "@/components/toast-provider"
 import "./globals.css"
 
 const cinzel = Cinzel({
@@ -41,7 +42,9 @@ export default function RootLayout({
       lang="en"
       className={`${cinzel.variable} ${cormorant.variable} ${geistMono.variable}`}
     >
-      <body className="min-h-screen bg-background antialiased">{children}</body>
+      <body className="min-h-screen bg-background antialiased">
+        <ToastProvider>{children}</ToastProvider>
+      </body>
     </html>
   )
 }
